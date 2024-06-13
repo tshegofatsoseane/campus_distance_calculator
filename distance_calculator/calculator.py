@@ -1,4 +1,5 @@
 from .google_maps import get_geocode, gmaps
+from .db import get_accommodations_with_null_campus, update_nearest_campus
 
 CAMPUS_ADDRESSES = {
     'North-West University': {
@@ -13,6 +14,19 @@ CAMPUS_ADDRESSES = {
         'Soweto Campus': 'University of Johannesburg - Soweto Campus, Chris Hani, Soweto, Johannesburg, 1809',
     }
 }
+
+def calculate_and_update_nearest_campuses(university):
+    accommodations = get_accommodations_with_null_campus(university)
+
+    for accommodation in accommodations:
+        street_address = accommodation['Street_Address']
+        results = calculate_distance_and_time_to_campuses(street_address)
+        
+        if not results:
+            continue
+        
+        nearest_campus = determine_nearest_campus(results)
+        update_nearest_campus(accommodation['id'], nearest_campus)
 
 def calculate_distance_and_time_to_campuses(street_address):
     """
