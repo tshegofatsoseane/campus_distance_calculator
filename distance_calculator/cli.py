@@ -13,12 +13,14 @@ def calculate_distances(street_address):
         click.echo("Could not get geocode location for the provided address.")
         return
 
-    for campus, modes in results.items():
-        click.echo(f"\n{campus} Campus:")
-        for mode, info in modes.items():
-            click.echo(f"  {mode.capitalize()}:")
-            click.echo(f"    Distance: {info['distance']}")
-            click.echo(f"    Duration: {info['duration']}")
+    for university, campuses in results.items():
+        click.echo(f"\n{university}:")
+        for campus, modes in campuses.items():
+            click.echo(f"\n  {campus} Campus:")
+            for mode, info in modes.items():
+                click.echo(f"    {mode.capitalize()}:")
+                click.echo(f"      Distance: {info['distance']}")
+                click.echo(f"      Duration: {info['duration']}")
 
 if __name__ == '__main__':
     calculate_distances()
