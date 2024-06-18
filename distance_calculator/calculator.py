@@ -6,7 +6,7 @@ CAMPUS_ADDRESSES = {
         'Potchefstroom': 'NWU Potchefstroom Campus Student Centre, 2 Hoffman St, Potchefstroom, 2520',
         'Vanderbijlpark': 'North-West University Vaal Triangle Campus, 1174 Hendrick Van Eck Boulevard, Vanderbijlpark, 1900',
     },
-    'University of Johannesburg': {
+    'UJ': {
         'Kingsway Campus': 'Kingsway Campus UJ Auckland Park, Rossmore, Johannesburg, 2092',
         'Bunting Road Campus': 'UJ Bunting Road Campus, 37 Bunting Rd, Cottesloe, Johannesburg, 2092',
         'Doornfontein Campus': 'University Of Johannesburg Doornfontein Campus, 55 Beit St, Doornfontein, Johannesburg, 2028',
