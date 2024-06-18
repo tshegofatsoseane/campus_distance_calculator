@@ -1,0 +1,2 @@
+[console_scripts]
+calculate_distances = distance_calculator.cli:calculate_distances
