@@ -1,5 +1,5 @@
 import click
-from sqlalchemy import create_engine, MetaData, Table, select
+from sqlalchemy import create_engine, MetaData, Table, select, update
 from geopy.distance import geodesic
 from google_maps import get_geocode  
 
@@ -55,6 +55,23 @@ def find_nearest_campus(street_address, campuses):
         print(f"Error finding nearest campus for {street_address}: {e}")
         return None
 
+def update_nearest_campus_in_db(accommodation_id, nearest_campus):
+    try:
+        stmt = update(accommodations_table).where(accommodations_table.c.id == accommodation_id).values(Nearest_Campus=nearest_campus)
+        connection.execute(stmt)
+        print(f"Updated Accommodation ID {accommodation_id} with Nearest Campus: {nearest_campus}")
+    except Exception as e:
+        print(f"Error updating accommodation ID {accommodation_id} in the database: {e}")
+
+def verify_updates():
+    try:
+        query = select(accommodations_table).where(accommodations_table.c.university == 'UJ')
+        results = connection.execute(query).fetchall()
+        for accommodation in results:
+            print(f"Accommodation ID {accommodation[0]} - Nearest Campus: {accommodation[6]}")
+    except Exception as e:
+        print(f"Error verifying updates: {e}")
+
 @click.command()
 def update_nearest_campus():
     query = select(accommodations_table).where(accommodations_table.c.university == 'UJ')
@@ -62,16 +79,17 @@ def update_nearest_campus():
 
     for accommodation in results:
         try:
-            street_address = accommodation[5] 
+            street_address = accommodation[5]
             nearest_campus = find_nearest_campus(street_address, UJ_CAMPUS_ADDRESSES)
             if nearest_campus:
-                print(f"Accommodation ID {accommodation[0]} - Nearest campus: {nearest_campus}")
+                update_nearest_campus_in_db(accommodation[0], nearest_campus)
             else:
                 print(f"Accommodation ID {accommodation[0]} - Could not find nearest campus")
 
         except Exception as e:
             print(f"Error processing accommodation ID {accommodation[0]}: {e}")
 
+    verify_updates()
     connection.close()
 
 if __name__ == '__main__':
