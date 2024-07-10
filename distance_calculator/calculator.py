@@ -30,7 +30,7 @@ def calculate_and_update_nearest_campuses(university):
 
 def calculate_distance_and_time_to_campuses(street_address):
     """
-    Calculate the distance and time from the given address to each campus for driving and walking.
+    Calculates the distance and time from the given address to each campus for driving and walking.
     """
     results = {}
 
