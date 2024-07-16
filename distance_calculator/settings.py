@@ -6,7 +6,7 @@ load_dotenv()
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 
 
-DATABASES = {
+DB_CONFIG = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'AccommodationDB',
