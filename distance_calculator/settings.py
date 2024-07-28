@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
+GOOGLE_MAPS_API_KEY = "AIzaSyA75_gIkupDOHd64HUstBz_vQ_VVV6C5Os"
 
 
-DATABASES = {
+DB_CONFIG = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'AccommodationDB',
