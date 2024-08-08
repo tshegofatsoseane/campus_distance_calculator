@@ -3,7 +3,6 @@ from unittest.mock import patch, MagicMock
 from io import StringIO
 import sys
 
-# Assuming your project structure is as described, you'll need to adjust the import path
 from distance_calculator.campus_calculator import (
     find_nearest_campus,
     update_nearest_campus_in_db,
@@ -17,7 +16,7 @@ from sqlalchemy.orm import sessionmaker
 class TestCampusCalculator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Create a test database engine (in-memory SQLite for simplicity)
+
         cls.engine = create_engine('sqlite:///:memory:')
         Accommodation.metadata.create_all(cls.engine)
         cls.Session = sessionmaker(bind=cls.engine)
@@ -26,10 +25,10 @@ class TestCampusCalculator(unittest.TestCase):
         self.session = self.Session()
 
     def tearDown(self):
-        self.session.rollback()  # Rollback changes after each test
+        self.session.rollback()  
         self.session.close()
 
-    @patch('distance_calculator.google_maps.get_geocode')  # Patch the correct module
+    @patch('distance_calculator.google_maps.get_geocode')  
     def test_find_nearest_campus_success(self, mock_geocode):
         # Mock geocoding results (using data from the PDF)
         mock_geocode.side_effect = [
@@ -40,9 +39,9 @@ class TestCampusCalculator(unittest.TestCase):
         nearest_campus = find_nearest_campus("17 Putney Johannesburg", UJ_CAMPUS_ADDRESSES)
         self.assertEqual(nearest_campus, 'Kingsway Campus')
 
-    @patch('distance_calculator.google_maps.get_geocode')  # Patch the correct module
+    @patch('distance_calculator.google_maps.get_geocode')  
     def test_find_nearest_campus_no_results(self, mock_geocode):
-        mock_geocode.return_value = []  # Simulate no geocoding results
+        mock_geocode.return_value = [] 
         nearest_campus = find_nearest_campus("Invalid Address", UJ_CAMPUS_ADDRESSES)
         self.assertIsNone(nearest_campus)
 
