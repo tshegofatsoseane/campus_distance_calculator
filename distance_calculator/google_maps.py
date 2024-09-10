@@ -1,8 +1,13 @@
-# distance_calculator/google_maps.py
 import googlemaps
-from .settings import GOOGLE_MAPS_API_KEY
 import logging
+from dotenv import load_dotenv
+import os
 
+# Load environment variables
+load_dotenv()
+
+# Use the API key from environment variables
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
 def get_geocode(address):
@@ -10,7 +15,7 @@ def get_geocode(address):
         geocode_result = gmaps.geocode(address)
         if not geocode_result:
             raise ValueError("No results found for the address.")
-        return geocode_result[0]
+        return geocode_result
     except googlemaps.exceptions.ApiError as e:
         logging.error(f"API Error: {e}")
         raise

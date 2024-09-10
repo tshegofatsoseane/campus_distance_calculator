@@ -15,19 +15,6 @@ CAMPUS_ADDRESSES = {
     }
 }
 
-def calculate_and_update_nearest_campuses(university):
-    accommodations = get_accommodations_with_null_campus(university)
-
-    for accommodation in accommodations:
-        street_address = accommodation['Street_Address']
-        results = calculate_distance_and_time_to_campuses(street_address)
-        
-        if not results:
-            continue
-        
-        nearest_campus = determine_nearest_campus(results)
-        update_nearest_campus(accommodation['id'], nearest_campus)
-
 def calculate_distance_and_time_to_campuses(street_address):
     """
     Calculates the distance and time from the given address to each campus for driving and walking.
@@ -68,3 +55,42 @@ def calculate_distance_and_time_to_campuses(street_address):
                         }
 
     return results
+
+def determine_nearest_campus(campuses):
+    """
+    Determines the nearest campus based on the calculated distances and durations.
+    """
+    nearest_campus = None
+    shortest_distance = float('inf')
+
+    for campus_name, campus_info in campuses.items():
+        # Assume driving distance is the priority for determining the nearest campus
+        if 'driving' in campus_info:
+            distance_str = campus_info['driving']['distance']
+            distance = float(''.join(filter(str.isdigit, distance_str)))  # Convert distance to number
+            
+            if distance < shortest_distance:
+                shortest_distance = distance
+                nearest_campus = campus_name
+
+    return nearest_campus
+
+def update_all_accommodations(university):
+    """
+    Fetch accommodations with null nearest campus for the given university, calculate distances, 
+    determine the nearest campus, and update the database.
+    """
+    accommodations = get_accommodations_with_null_campus(university)
+
+    for accommodation in accommodations:
+        street_address = accommodation['Street_Address']
+        results = calculate_distance_and_time_to_campuses(street_address)
+        
+        if not results:
+            continue
+        
+        nearest_campus = determine_nearest_campus(results.get(university, {}))
+        if nearest_campus:
+            update_nearest_campus(accommodation['id'], nearest_campus)
+        else:
+            print(f"Could not determine the nearest campus for Accommodation ID {accommodation['id']}")

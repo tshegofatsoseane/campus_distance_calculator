@@ -3,17 +3,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-GOOGLE_MAPS_API_KEY = "AIzaSyA75_gIkupDOHd64HUstBz_vQ_VVV6C5Os"
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 
 
 DB_CONFIG = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'AccommodationDB',
-        'USER': 'root',
-        'PASSWORD': '98Naturena!!',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
