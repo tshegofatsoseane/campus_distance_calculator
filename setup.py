@@ -11,7 +11,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'calculate_distances=distance_calculator.cli:calculate_distances',
+            'calculate_distances=distance_calculator.main:calculate_distances',
         ],
     },
 )

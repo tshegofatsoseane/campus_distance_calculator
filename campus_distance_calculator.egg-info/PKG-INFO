@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: campus-distance-calculator
+Name: campus_distance_calculator
 Version: 0.1
 Requires-Dist: click
 Requires-Dist: googlemaps

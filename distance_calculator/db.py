@@ -8,7 +8,6 @@ DB_PASSWORD = '98Naturena!!'
 DB_HOST = 'localhost'
 DB_PORT = '3306'
 
-# Create the engine and metadata
 engine = create_engine(f"{DB_ENGINE}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 metadata = MetaData()
 accommodations_table = Table('accommodations', metadata, autoload_with=engine)
@@ -29,7 +28,7 @@ def get_accommodations_with_null_campus(university):
             accommodations_table.c.Nearest_Campus.is_(None)
         )
         results = connection.execute(query).fetchall()
-        # Convert result to a list of dictionaries
+        # convert result to a list of dictionaries
         accommodations = [dict(row) for row in results]
     
     return accommodations
